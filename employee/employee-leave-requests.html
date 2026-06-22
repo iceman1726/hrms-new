@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File a Leave | Employee</title>
+    <link rel="icon" type="image/x-icon" href="../CKL-1.PNG">
+    <link rel="stylesheet" href="../css/employee-leave-requests.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header"><h2>CKL HRMS</h2><p>Construction Services</p></div>
+        <ul class="nav-menu">
+
+    <li class="nav-item">
+        <a href="employee-dashboard.php">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a href="employee-attendance.html">
+            <i class="bi bi-calendar-check"></i>
+            <span>My Attendance</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="employee-payslips.html">
+            <i class="bi bi-cash-stack"></i>
+            <span>My Payslip</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="employee-deployment-history.html">
+            <i class="bi bi-truck"></i>
+            <span>Deployment</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="employee-leave-requests.html">
+            <i class="bi bi-calendar-plus"></i>
+            <span>File a Leave</span>
+        </a>
+    </li>
+
+</ul>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">File a Leave</div>
+            <div class="user-info">
+                <!-- Notification Bell -->
+                <div class="notif-container">
+    <button class="notif-bell" id="notifBell" onclick="toggleNotifDropdown();">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notif-badge" id="notifBadge">0</span>
+    </button>
+
+    <div class="notif-dropdown" id="notifDropdown">
+        <div id="notifList"></div>
+    </div>
+</div>
+
+                <!-- User dropdown -->
+                <div class="dropdown">
+                    <button class="dropbtn" id="dropbtn">
+                        <span id="userNameDisplay">Employee</span> <span style="font-size:0.8rem;">▼</span>
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-content">
+                        <a href="../change-password.html">Change Password</a>
+                        <a href="../backend/api/logout.php" onclick="event.preventDefault(); handleLogout();">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="panel">
+                <h2>Submit New Leave Request</h2>
+
+                <div class="form-group">
+                    <label for="employeeName">Employee Name</label>
+                    <input type="text" id="employeeName">
+                </div>
+                <div class="form-group">
+                    <label for="employeeId">Employee ID</label>
+                    <input type="text" id="employeeId">
+                </div>
+                <div class="form-group">
+                    <label for="position">Position</label>
+                    <input type="text" id="position">
+                </div>
+                <div class="form-group">
+                    <label for="leaveType">Leave Type</label>
+                    <select id="leaveType">
+                        <option value="Sick Leave">Sick Leave</option>
+                        <option value="Vacation Leave">Vacation Leave</option>
+                        <option value="Emergency Leave">Emergency Leave</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason</label>
+                    <textarea id="reason" rows="2"></textarea>
+                </div>
+
+                <button id="submitLeave">Submit Request</button>
+                <div id="submitMessage" style="margin-top:8px;"></div>
+            </div>
+
+            <div class="panel">
+                <h2>My Leave History</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead><tr><th>Name</th><th>ID</th><th>Position</th><th>Type</th><th>Start</th><th>End</th><th>Reason</th><th>Status</th></tr></thead>
+                        <tbody id="historyBody">
+                            <tr><td colspan="8" class="empty-message">No leave history found.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/employee-leave-requests.js"></script>
+</body>
+</html>
