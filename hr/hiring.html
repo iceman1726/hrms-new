@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiring | HR</title>
+    <link rel="icon" type="image/x-icon" href="../CKL-1.PNG">
+    <link rel="stylesheet" href="../css/hiring.css">
+    <!-- ===== NOTIFICATION STYLES ===== -->
+    <link rel="stylesheet" href="../css/notifications.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header"><h2>CKL HRMS</h2><p>Construction Services</p></div>
+        <ul class="nav-menu">
+    <li class="nav-item">
+        <a href="dashboard.html">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="employees.html">
+            <i class="bi bi-people-fill"></i>
+            <span>Employee Directory</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="biometric-logs.html">
+            <i class="bi bi-fingerprint"></i>
+            <span>Biometric Logs</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="field-deployments.html">
+            <i class="bi bi-truck"></i>
+            <span>Field Deployments</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="leave-requests.html">
+            <i class="bi bi-calendar-check"></i>
+            <span>Leave Requests</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="payroll.html">
+            <i class="bi bi-cash-stack"></i>
+            <span>Payroll</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="reports.html">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <span>Reports</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a href="hiring.html">
+            <i class="bi bi-person-workspace"></i>
+            <span>Hiring</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="register.html">
+            <i class="bi bi-person-plus"></i>
+            <span>Create New Account</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="offboarding-history.html">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Offboarding History</span>
+        </a>
+    </li>
+</ul>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">Hiring – Applications</div>
+            <div class="user-info">
+                <!-- ===== NOTIFICATION BELL & DROPDOWN ===== -->
+                <div class="notif-container">
+    <button class="notif-bell" id="notifBell" onclick="toggleNotifDropdown();">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notif-badge" id="notifBadge">0</span>
+    </button>
+
+    <div class="notif-dropdown" id="notifDropdown">
+        <div id="notifList"></div>
+    </div>
+</div>
+
+                <!-- User dropdown – now handled by auth.js -->
+                <div class="dropdown">
+                    <button class="dropbtn" id="dropbtn">
+                        <span id="userNameDisplay">HR Administrator</span> <span style="font-size:0.8rem;">▼</span>
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-content">
+                        <a href="../change-password.html">Change Password</a>
+                        <a href="../backend/api/logout.php" onclick="event.preventDefault(); handleLogout();">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="panel">
+                <h2>Applications</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>Applied</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsBody">
+                            <tr><td colspan="6" class="empty-message">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAILS MODAL -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <h3>Application Details</h3>
+            <div id="detailsBody"></div>
+            <div class="modal-buttons">
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERVIEW MODAL -->
+    <div id="interviewModal" class="modal">
+        <div class="modal-content">
+            <h3>Schedule Interview</h3>
+            <form id="interviewForm">
+                <div class="form-group"><label for="interviewType">Interview Type</label><select id="interviewType" required><option value="Phone Call">Phone Call</option><option value="On-site">On-site</option><option value="Video Call">Video Call</option></select></div>
+                <div class="form-group"><label for="interviewDateTime">Interview Date & Time</label><input type="datetime-local" id="interviewDateTime" required></div>
+                <div class="form-group"><label for="interviewNotes">Notes</label><textarea id="interviewNotes" rows="3" placeholder="Any additional notes..."></textarea></div>
+                <div class="modal-buttons">
+                    <button type="button" class="close-btn" onclick="closeInterviewModal()">Cancel</button>
+                    <button type="submit" class="save-btn">Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- APPROVE MODAL -->
+    <div id="approveModal" class="modal">
+        <div class="modal-content">
+            <h3>Create Employee Account</h3>
+            <p id="approveApplicantName" style="color: #5a6e7c; margin-bottom: 1rem;"></p>
+            <form id="approveForm">
+                <div class="form-group"><label for="empId">Employee ID</label><input type="text" id="empId" placeholder="e.g. EMP123" required></div>
+                <div class="form-group"><label for="empEmail">Company Email</label><input type="email" id="empEmail" placeholder="e.g. 00102@cklservices.com" required></div>
+                <div class="form-group"><label for="empRole">Role</label><select id="empRole"><option value="employee">Employee</option><option value="team_leader">Team Leader</option><option value="coordinator">Coordinator</option><option value="hr">HR</option></select></div>
+                <div class="form-group"><label for="dailyRate">Daily Rate (₱)</label><input type="number" id="dailyRate" placeholder="e.g. 800" step="0.01" required></div>
+                <div class="modal-buttons">
+                    <button type="button" class="close-btn" onclick="closeApproveModal()">Cancel</button>
+                    <button type="submit" class="save-btn">Create Account</button>
+                </div>
+                <div id="approveMessage" style="margin-top: 1rem;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS – ORDER MATTERS ===== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/hiring.js"></script>
+</body>
+</html>

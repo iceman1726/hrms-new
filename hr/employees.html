@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees | HR | CKL Construction</title>
+    <link rel="icon" type="image/x-icon" href="../CKL-1.PNG">
+    <link rel="stylesheet" href="../css/employees.css">
+    <!-- ===== NOTIFICATION STYLES ===== -->
+    <link rel="stylesheet" href="../css/notifications.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header"><h2>CKL HRMS</h2><p>Construction Services</p></div>
+        <ul class="nav-menu">
+    <li class="nav-item">
+        <a href="dashboard.html">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a href="employees.html">
+            <i class="bi bi-people-fill"></i>
+            <span>Employee Directory</span>
+        </a>
+    </li>
+
+    <li class="nav-item ">
+        <a href="biometric-logs.html">
+            <i class="bi bi-fingerprint"></i>
+            <span>Biometric Logs</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="field-deployments.html">
+            <i class="bi bi-truck"></i>
+            <span>Field Deployments</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="leave-requests.html">
+            <i class="bi bi-calendar-check"></i>
+            <span>Leave Requests</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="payroll.html">
+            <i class="bi bi-cash-stack"></i>
+            <span>Payroll</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="reports.html">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <span>Reports</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="hiring.html">
+            <i class="bi bi-person-workspace"></i>
+            <span>Hiring</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="register.html">
+            <i class="bi bi-person-plus"></i>
+            <span>Create New Account</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="offboarding-history.html">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Offboarding History</span>
+        </a>
+    </li>
+</ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">Employee Directory</div>
+            <div class="user-info">
+                <!-- ===== NOTIFICATION BELL & DROPDOWN ===== -->
+                <div class="notif-container">
+    <button class="notif-bell" id="notifBell" onclick="toggleNotifDropdown();">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notif-badge" id="notifBadge">0</span>
+    </button>
+
+    <div class="notif-dropdown" id="notifDropdown">
+        <div id="notifList"></div>
+    </div>
+</div>
+
+                <!-- User dropdown (unchanged, auth.js handles toggle) -->
+                <div class="dropdown">
+                    <button class="dropbtn" id="dropbtn">
+                        <span id="userNameDisplay">HR Administrator</span> <span style="font-size:0.8rem;">▼</span>
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-content">
+                        <a href="../change-password.html">Change Password</a>
+                        <a href="../backend/api/logout.php" onclick="event.preventDefault(); handleLogout();">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="panel">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search by name or ID">
+                    <!-- Add Employee button removed – use "Create New Account" in sidebar -->
+                </div>
+                <div style="overflow-x: auto;">
+                    <table id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th>Daily Rate</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody">
+                            <tr><td colspan="7" style="text-align:center;">Loading employees...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3>Add New Employee</h3>
+            <div class="form-group"><label for="addName">Name</label><input type="text" id="addName" placeholder="Enter full name"></div>
+            <div class="form-group"><label for="addPosition">Position</label><input type="text" id="addPosition" placeholder="e.g., TL, LINEMAN, DRIVER, HELPER"></div>
+            <div class="form-group"><label for="addDepartment">Department</label><input type="text" id="addDepartment" placeholder="e.g., Operations, Field, Logistics"></div>
+            <div class="form-group"><label for="addDailyRate">Daily Rate (₱)</label><input type="number" id="addDailyRate" placeholder="e.g., 800"></div>
+            <div class="form-group"><label for="addStatus">Status</label><input type="text" id="addStatus" placeholder="e.g., Active, On Leave, Inactive"></div>
+            <div class="modal-buttons"><button class="cancel-btn" onclick="closeAddModal()">Cancel</button><button class="save-btn" id="saveAddBtn">Add Employee</button></div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Employee</h3>
+            <input type="hidden" id="editId">
+            <div class="form-group"><label for="editName">Name</label><input type="text" id="editName"></div>
+            <div class="form-group"><label for="editPosition">Position</label><input type="text" id="editPosition"></div>
+            <div class="form-group"><label for="editDepartment">Department</label><input type="text" id="editDepartment"></div>
+            <div class="form-group"><label for="editDailyRate">Daily Rate (₱)</label><input type="number" id="editDailyRate"></div>
+            <div class="form-group"><label for="editStatus">Status</label><input type="text" id="editStatus" placeholder="e.g., Active, On Leave, Inactive"></div>
+            <div class="modal-buttons"><button class="cancel-btn" onclick="closeEditModal()">Cancel</button><button class="save-btn" id="saveEditBtn">Save Changes</button></div>
+        </div>
+    </div>
+
+    <!-- Offboard Modal -->
+    <div id="offboardModal" class="modal">
+        <div class="modal-content">
+            <h3>Offboard Employee</h3>
+            <input type="hidden" id="offboardId">
+            <p id="offboardName"></p>
+            <div class="form-group"><label for="offboardDate">Offboarding Date (YY/MM/DD)</label><input type="text" id="offboardDate" placeholder="26/06/30"></div>
+            <div class="form-group"><label for="offboardReason">Reason</label><select id="offboardReason"><option>Resigned</option><option>Terminated</option><option>End of Contract</option><option>Retired</option></select></div>
+            <div class="form-group"><label for="offboardRemarks">Remarks (optional)</label><textarea id="offboardRemarks" rows="2" placeholder="Additional notes..."></textarea></div>
+            <div class="modal-buttons"><button class="cancel-btn" onclick="closeOffboardModal()">Cancel</button><button class="save-btn" id="saveOffboardBtn">Confirm Offboarding</button></div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS – ORDER MATTERS -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/employees.js"></script>
+</body>
+</html>

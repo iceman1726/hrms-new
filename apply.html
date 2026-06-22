@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply | CKL Construction</title>
+    <link rel="icon" type="image/x-icon" href="CKL-1.PNG">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        .container h1 {
+            text-align: center;
+            color: #1e4668;
+            margin-bottom: 0.25rem;
+            font-size: 1.8rem;
+        }
+        .container .sub {
+            text-align: center;
+            color: #5a6e7c;
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1e4668;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d4dee5;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.1);
+        }
+        .btn-submit {
+            width: 100%;
+            background: #2c7da0;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+        .btn-submit:hover { background: #1e5a74; }
+        .message { margin-top: 1rem; padding: 10px; border-radius: 10px; text-align: center; display: none; }
+        .message.success { display: block; background: #dcfce7; color: #16a34a; }
+        .message.error { display: block; background: #fee2e2; color: #dc2626; }
+        .footer { text-align: center; margin-top: 1.5rem; font-size: 0.75rem; color: #8a9aa8; }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apply to CKL Construction</h1>
+        <p class="sub">Fill out the form below to submit your application</p>
+
+        <form id="applyForm">
+            <!-- PERSONAL INFORMATION -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="phone">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="date_of_birth">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <textarea id="address" rows="2"></textarea>
+            </div>
+
+            <!-- EMPLOYMENT INFORMATION -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Position Applying For</label>
+                    <select id="position">
+                        <option value="Lineman">Lineman</option>
+                        <option value="Driver">Driver</option>
+                        <option value="Helper">Helper</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="Coordinator">Coordinator</option>
+                        <option value="HR">HR</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Years of Experience</label>
+                    <input type="number" id="years_experience" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Skills</label>
+                <textarea id="skills" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Previous Work Experience</label>
+                <textarea id="experience" rows="3"></textarea>
+            </div>
+
+            <!-- ADDITIONAL INFORMATION -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Emergency Contact</label>
+                    <input type="text" id="emergency_contact">
+                </div>
+                <div class="form-group">
+                    <label>Emergency Contact Phone</label>
+                    <input type="text" id="emergency_phone">
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Submit Application</button>
+            <div id="message" class="message"></div>
+        </form>
+        <div class="footer">CKL Construction Services • Equal Opportunity Employer</div>
+    </div>
+
+    <script>
+        document.getElementById('applyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const position = document.getElementById('position').value;
+            const experience = document.getElementById('experience').value.trim();
+            const date_of_birth = document.getElementById('date_of_birth').value;
+            const address = document.getElementById('address').value.trim();
+            const years_experience = parseInt(document.getElementById('years_experience').value) || 0;
+            const skills = document.getElementById('skills').value.trim();
+            const emergency_contact = document.getElementById('emergency_contact').value.trim();
+            const emergency_phone = document.getElementById('emergency_phone').value.trim();
+            const msgDiv = document.getElementById('message');
+
+            msgDiv.className = 'message';
+            msgDiv.textContent = '';
+
+            if (!name || !email) {
+                msgDiv.className = 'message error';
+                msgDiv.textContent = 'Name and email are required.';
+                return;
+            }
+
+            msgDiv.textContent = 'Submitting...';
+
+            try {
+                const res = await fetch('/hrms/backend/api/submit_application.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name, email, phone, position, experience, date_of_birth, address, 
+                        years_experience, skills, emergency_contact, emergency_phone
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    msgDiv.className = 'message success';
+                    msgDiv.textContent = 'Application submitted! HR will review it soon.';
+                    document.getElementById('applyForm').reset();
+                } else {
+                    msgDiv.className = 'message error';
+                    msgDiv.textContent = 'Error: ' + data.message;
+                }
+            } catch (error) {
+                msgDiv.className = 'message error';
+                msgDiv.textContent = 'Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

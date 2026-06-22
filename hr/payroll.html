@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll | HR | CKL Construction</title>
+    <link rel="icon" type="image/x-icon" href="CKL-1.PNG">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="../css/payroll.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header"><h2>CKL HRMS</h2><p>Construction Services</p></div>
+        <ul class="nav-menu">
+    <li class="nav-item">
+        <a href="dashboard.html">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="employees.html">
+            <i class="bi bi-people-fill"></i>
+            <span>Employee Directory</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="biometric-logs.html">
+            <i class="bi bi-fingerprint"></i>
+            <span>Biometric Logs</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="field-deployments.html">
+            <i class="bi bi-truck"></i>
+            <span>Field Deployments</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="leave-requests.html">
+            <i class="bi bi-calendar-check"></i>
+            <span>Leave Requests</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a href="payroll.html">
+            <i class="bi bi-cash-stack"></i>
+            <span>Payroll</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="reports.html">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <span>Reports</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="hiring.html">
+            <i class="bi bi-person-workspace"></i>
+            <span>Hiring</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="register.html">
+            <i class="bi bi-person-plus"></i>
+            <span>Create New Account</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="offboarding-history.html">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Offboarding History</span>
+        </a>
+    </li>
+</ul>
+    </div>
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title">Payroll Management</div>
+            <div class="user-info">
+                <div class="notif-container">
+    <button class="notif-bell" id="notifBell" onclick="toggleNotifDropdown();">
+        <i class="bi bi-bell-fill"></i>
+        <span class="notif-badge" id="notifBadge">0</span>
+    </button>
+
+    <div class="notif-dropdown" id="notifDropdown">
+        <div id="notifList"></div>
+    </div>
+</div>
+                <div class="dropdown">
+                    <button class="dropbtn" id="dropbtn">
+                        <span id="userNameDisplay">HR Administrator</span> <span style="font-size:0.8rem;">▼</span>
+                    </button>
+                    <div id="dropdownMenu" class="dropdown-content">
+                        <a href="/hrms/change-password.html">Change Password</a>
+                        <a href="/hrms/backend/api/logout.php">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="panel">
+                <h2>Payroll Period</h2>
+                <div class="payroll-controls">
+                    <select id="payPeriod">
+                        <option value="1-15">1st - 15th</option>
+                        <option value="16-30">16th - 30th</option>
+                    </select>
+                    <input type="month" id="payMonth" value="2026-06">
+                    <button class="btn-primary" id="computePayrollBtn" onclick="computePayroll()">Compute Payroll</button>
+                    <button class="btn-success" id="finalizePayrollBtn" onclick="finalizePayroll()">Finalize Payroll</button>
+                    <button class="btn-warning" id="bulkPayslipBtn" onclick="generateBulkPayslips()">Generate Bulk Payslips (ZIP)</button>
+                </div>
+                <div id="payrollResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/payroll.js"></script>
+</body>
+</html>
