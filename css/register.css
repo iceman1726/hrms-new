@@ -1,0 +1,30 @@
+body {
+    font-family: Arial;
+    background: #e0eafc;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 400px;
+}
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background: #2c7da0;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}

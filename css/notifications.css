@@ -1,0 +1,154 @@
+/* ===== NOTIFICATION BELL & DROPDOWN ===== */
+
+.notif-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.notif-bell {
+    position: relative;
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    border: none;
+    border-radius: 50%;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.notif-bell i {
+    font-size: 20px;
+    color: #1e4668;
+    transition: all 0.3s ease;
+}
+
+.notif-bell:hover {
+    background: #f0f4fa;
+    transform: translateY(-2px);
+}
+
+.notif-bell:hover i {
+    color: #2c7da0;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+
+    min-width: 18px;
+    height: 18px;
+
+    background: #22c55e;
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid white;
+}
+
+/* ===== DROPDOWN ===== */
+
+.notif-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+
+    background: white;
+    min-width: 320px;
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+    z-index: 1000;
+    padding: 8px 0;
+}
+
+.notif-dropdown.show {
+    display: block;
+}
+
+.notif-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f5;
+    transition: background 0.2s ease;
+}
+
+.notif-item:last-child {
+    border-bottom: none;
+}
+
+.notif-item:hover {
+    background: #f8fafc;
+}
+
+.notif-unread {
+    background: #f7f9fc;
+}
+
+.notif-read {
+    background: white;
+}
+
+.notif-link {
+    text-decoration: none;
+    color: #1e2a3e;
+    display: block;
+}
+
+.notif-link:hover {
+    text-decoration: none;
+}
+
+.notif-message {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.notif-time {
+    font-size: 0.75rem;
+    color: #8a9aa8;
+}
+
+.notif-empty {
+    padding: 20px;
+    text-align: center;
+    color: #8a9aa8;
+    font-size: 0.9rem;
+}
+
+/* ===== SCROLLBAR ===== */
+
+.notif-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notif-dropdown::-webkit-scrollbar-thumb {
+    background: #d1d9e6;
+    border-radius: 20px;
+}
+
+.notif-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
